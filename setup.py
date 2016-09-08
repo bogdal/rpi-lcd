@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
+
 setup(
     name='rpi-lcd',
-    version='0.0.1',
+    version='0.0.2',
     description='I²C LCD library for RaspberryPi',
     author='Adam Bogdał',
     author_email='adam@bogdal.pl',
@@ -19,5 +20,6 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
-        'Topic :: Software Development :: Libraries :: Python Modules'],
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: System :: Hardware :: Hardware Drivers'],
     zip_safe=False)
