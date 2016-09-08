@@ -16,11 +16,11 @@ LINES = {
 
 class LCD(object):
 
-    def __init__(self, address=0x27, bus=1, width=20, height=4):
+    def __init__(self, address=0x27, bus=1, width=20, rows=4):
         self.address = address
         self.bus = SMBus(bus)
         self.delay = 0.0005
-        self.height = height
+        self.rows = rows
         self.width = width
 
         self.write(0x33)
@@ -48,7 +48,7 @@ class LCD(object):
         text = getattr(text, ALIGN_FUNC.get(align, 'ljust'))(self.width)
         for char in text:
             self.write(ord(char), mode=1)
-        if other_lines and line <= self.height - 1:
+        if other_lines and line <= self.rows - 1:
             self.text(other_lines, line + 1, align=align)
 
     def get_text_line(self, text):
