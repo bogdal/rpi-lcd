@@ -13,15 +13,18 @@ LINES = {
     3: 0x94,
     4: 0xD4}
 
+LCD_BACKLIGHT = 0x08
+LCD_NOBACKLIGHT = 0x00
 
 class LCD(object):
 
-    def __init__(self, address=0x27, bus=1, width=20, rows=4):
+    def __init__(self, address=0x27, bus=1, width=20, rows=4, backlight=True):
         self.address = address
         self.bus = SMBus(bus)
         self.delay = 0.0005
         self.rows = rows
         self.width = width
+        self.backlight_status = backlight
 
         self.write(0x33)
         self.write(0x32)
@@ -39,8 +42,9 @@ class LCD(object):
         sleep(self.delay)
 
     def write(self, byte, mode=0):
-        self._write_byte(mode | (byte & 0xF0) | 0x08)
-        self._write_byte(mode | ((byte << 4) & 0xF0) | 0x08)
+        backlight_mode = LCD_BACKLIGHT if self.backlight_status else LCD_NOBACKLIGHT
+        self._write_byte(mode | (byte & 0xF0) | backlight_mode)
+        self._write_byte(mode | ((byte << 4) & 0xF0) | backlight_mode)
 
     def text(self, text, line, align='left'):
         self.write(LINES.get(line, LINES[1]))
@@ -50,6 +54,10 @@ class LCD(object):
             self.write(ord(char), mode=1)
         if other_lines and line <= self.rows - 1:
             self.text(other_lines, line + 1, align=align)
+
+    def backlight(self, turn_on=True):
+        self.backlight_status = turn_on
+        self.write(0)
 
     def get_text_line(self, text):
         line_break = self.width
