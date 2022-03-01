@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='rpi-lcd',
-    version='0.0.2',
+    version='0.0.3',
     description='I²C LCD library for RaspberryPi',
     author='Adam Bogdał',
     author_email='adam@bogdal.pl',
