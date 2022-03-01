@@ -42,12 +42,9 @@ class LCD(object):
         sleep(self.delay)
 
     def write(self, byte, mode=0):
-        if self.backlight_status == True:
-            backlight_value = LCD_BACKLIGHT
-        else:
-            backlight_value = LCD_NOBACKLIGHT
-        self._write_byte(mode | (byte & 0xF0) | backlight_value)
-        self._write_byte(mode | ((byte << 4) & 0xF0) | backlight_value)
+        backlight_mode = LCD_BACKLIGHT if self.backlight_status else LCD_NOBACKLIGHT
+        self._write_byte(mode | (byte & 0xF0) | backlight_mode)
+        self._write_byte(mode | ((byte << 4) & 0xF0) | backlight_mode)
 
     def text(self, text, line, align='left'):
         self.write(LINES.get(line, LINES[1]))
